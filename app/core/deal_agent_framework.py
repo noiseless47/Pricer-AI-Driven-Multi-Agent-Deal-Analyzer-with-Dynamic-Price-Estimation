@@ -3,7 +3,6 @@ import sys
 import logging
 import json
 from typing import List, Optional
-from twilio.rest import Client
 from dotenv import load_dotenv
 import chromadb
 from app.agents.planning_agent import PlanningAgent
@@ -87,10 +86,18 @@ class DealAgentFramework:
         client = chromadb.PersistentClient(path=cls.DB)
         collection = client.get_or_create_collection('products')
         result = collection.get(include=['embeddings', 'documents', 'metadatas'], limit=max_datapoints)
+        if result['embeddings'] is None or len(result['embeddings']) == 0:
+            return [], np.empty((0, 3)), []
+
         vectors = np.array(result['embeddings'])
         documents = result['documents']
         categories = [metadata['category'] for metadata in result['metadatas']]
-        colors = [COLORS[CATEGORIES.index(c)] for c in categories]
+        colors = [
+            COLORS[CATEGORIES.index(category)]
+            if category in CATEGORIES
+            else 'gray'
+            for category in categories
+        ]
         tsne = TSNE(n_components=3, random_state=42, n_jobs=-1)
         reduced_vectors = tsne.fit_transform(vectors)
         return documents, reduced_vectors, colors
