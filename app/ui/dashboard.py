@@ -3,9 +3,9 @@ import queue
 import threading
 import time
 import gradio as gr
-from deal_agent_framework import DealAgentFramework
-from agents.deals import Opportunity, Deal
-from log_utils import reformat
+from app.core.deal_agent_framework import DealAgentFramework
+from app.agents.deals import Opportunity, Deal
+from app.utils.log_formatting import reformat
 import plotly.graph_objects as go
 
 import os
@@ -109,7 +109,7 @@ Keep it crisp, simple and benefit-focused.
 
 
 def reasons_for_all_items():
-    with open("memory.json", "r", encoding="utf-8") as f:
+    with open(DealAgentFramework.MEMORY_FILENAME, "r", encoding="utf-8") as f:
         mem = json.load(f)
 
     last_items = mem[-5:]

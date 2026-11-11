@@ -1,9 +1,9 @@
 from typing import Optional, List
-from agents.agent import Agent
-from agents.deals import Deal, Opportunity
-from agents.scanner_agent import ScannerAgent
-from agents.ensemble_agent import EnsembleAgent
-from agents.messaging_agent import MessagingAgent
+from app.agents.agent import Agent
+from app.agents.deals import Deal, Opportunity
+from app.agents.scanner_agent import ScannerAgent
+from app.agents.ensemble_agent import EnsembleAgent
+from app.agents.messaging_agent import MessagingAgent
 import random
 
 

@@ -2,10 +2,11 @@
 
 import os
 import re
+from pathlib import Path
 from typing import List
 from sentence_transformers import SentenceTransformer
 import joblib
-from agents.agent import Agent
+from app.agents.agent import Agent
 
 
 
@@ -21,7 +22,8 @@ class RandomForestAgent(Agent):
         """
         self.log("Random Forest Agent is initializing")
         self.vectorizer = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-        self.model = joblib.load('random_forest_model.pkl')
+        model_path = Path(__file__).resolve().parents[1] / "models" / "random_forest_model.pkl"
+        self.model = joblib.load(model_path)
         self.log("Random Forest Agent is ready")
 
     def price(self, description: str) -> float:

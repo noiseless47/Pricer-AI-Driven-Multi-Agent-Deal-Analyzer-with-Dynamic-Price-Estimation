@@ -6,10 +6,11 @@ from typing import List, Optional
 from twilio.rest import Client
 from dotenv import load_dotenv
 import chromadb
-from agents.planning_agent import PlanningAgent
-from agents.deals import Opportunity
+from app.agents.planning_agent import PlanningAgent
+from app.agents.deals import Opportunity
 from sklearn.manifold import TSNE
 import numpy as np
+from pathlib import Path
 
 
 # Colors for logging
@@ -36,8 +37,9 @@ def init_logging():
 
 class DealAgentFramework:
 
-    DB = "products_vectorstore"
-    MEMORY_FILENAME = "memory.json"
+    ROOT = Path(__file__).resolve().parents[2]
+    DB = str(ROOT / "products_vectorstore")
+    MEMORY_FILENAME = str(ROOT / "data" / "memory.json")
 
     def __init__(self):
         init_logging()

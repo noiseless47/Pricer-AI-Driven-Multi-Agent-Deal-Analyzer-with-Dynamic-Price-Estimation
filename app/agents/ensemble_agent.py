@@ -2,10 +2,12 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 import joblib
 
-from agents.agent import Agent
-from agents.specialist_agent import SpecialistAgent
-from agents.frontier_agent import FrontierAgent
-from agents.random_forest_agent import RandomForestAgent
+from pathlib import Path
+
+from app.agents.agent import Agent
+from app.agents.specialist_agent import SpecialistAgent
+from app.agents.frontier_agent import FrontierAgent
+from app.agents.random_forest_agent import RandomForestAgent
 
 class EnsembleAgent(Agent):
 
@@ -21,7 +23,8 @@ class EnsembleAgent(Agent):
         self.specialist = SpecialistAgent()
         self.frontier = FrontierAgent(collection)
         self.random_forest = RandomForestAgent()
-        self.model = joblib.load('ensemble_model.pkl')
+        model_path = Path(__file__).resolve().parents[2] / "models" / "ensemble_model.pkl"
+        self.model = joblib.load(model_path)
         self.log("Ensemble Agent is ready")
 
     def price(self, description: str) -> float:
